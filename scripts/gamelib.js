@@ -81,7 +81,7 @@ var GameHandler =
    KEY:
    {
       SHIFT:16, CTRL:17, ESC:27, RIGHT:39, UP:38, LEFT:37, DOWN:40, SPACE:32,
-      A:65, E:69, G:71, L:76, P:80, R:82, S:83, Z:90
+      A:65, E:69, G:71, L:76, P:80, R:82, S:83, T:84, Z:90
    },
    
    /**

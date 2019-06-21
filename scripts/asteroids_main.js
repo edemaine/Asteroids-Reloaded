@@ -24,6 +24,9 @@
  * . Boss ship - large saucer takes lots of hits etc.
  */
 
+// Based on CoffeeScript
+var modulo = function(a, b) { return (+a % (b = +b) + b) % b; };
+var div = function(a, b) { return Math.floor(a / b); };
 
 // Globals
 var BITMAPS = true;
@@ -122,7 +125,8 @@ Asteroids.Colours =
    GREEN_LASERX2_DARK: "rgb(50,255,75)",
    PLAYER_BOMB: "rgb(155,255,155)",
    PLAYER_THRUST: "rgb(25,125,255)",
-   PLAYER_SHIELD: "rgb(100,100,255)"
+   PLAYER_SHIELD: "rgb(100,100,255)",
+   TOPOLOGY_LINE: "rgb(0,255,0)"
 };
 
 
@@ -201,6 +205,8 @@ Asteroids.Colours =
    extend(Asteroids.Main, Game.Main,
    {
       STARFIELD_SIZE: 64,
+
+      genus: 0,
       
       /**
        * Reference to the single game player actor
@@ -305,21 +311,33 @@ Asteroids.Colours =
          actor.position.add(actor.vector.nscale(GameHandler.frameMultipler));
          
          // handle traversing out of the coordinate space and back again
-         if (actor.position.x >= GameHandler.width)
-         {
-            actor.position.x = 0;
+         while (actor.position.x >= GameHandler.width) {
+            actor.position.x -= GameHandler.width;
+            if (modulo(actor.position.y, GameHandler.height) < div(GameHandler.height, this.genus+1))
+               actor.position.y += div(GameHandler.height, 2);
+            else
+               actor.position.y -= div(GameHandler.height, 2);
          }
-         else if (actor.position.x < 0)
-         {
-            actor.position.x = GameHandler.width - 1;
+         while (actor.position.x < 0) {
+            actor.position.x += GameHandler.width;
+            if (modulo(actor.position.y, GameHandler.height) < div(GameHandler.height, 2))
+               actor.position.y += div(GameHandler.height, 2);
+            else
+               actor.position.y -= div(GameHandler.height, 2);
          }
-         if (actor.position.y >= GameHandler.height)
-         {
-            actor.position.y = 0;
+         while (actor.position.y >= GameHandler.height) {
+            actor.position.y -= GameHandler.height;
+            if (modulo(actor.position.x, GameHandler.width) < div(GameHandler.width, 2))
+               actor.position.x += div(GameHandler.width, 2);
+            else
+               actor.position.x -= div(GameHandler.width, 2);
          }
-         else if (actor.position.y < 0)
-         {
-            actor.position.y = GameHandler.height - 1;
+         while (actor.position.y < 0) {
+            actor.position.y += GameHandler.height;
+            if (modulo(actor.position.x, GameHandler.width) < div(GameHandler.width, 2))
+               actor.position.x += div(GameHandler.width, 2);
+            else
+               actor.position.x -= div(GameHandler.width, 2);
          }
       }
    });
@@ -537,6 +555,7 @@ Asteroids.Colours =
       
       onKeyDownHandler: function onKeyDownHandler(keyCode)
       {
+         console.log(keyCode);
          switch (keyCode)
          {
             case GameHandler.GAMEPAD + 0:
@@ -562,6 +581,13 @@ Asteroids.Colours =
             {
                GameHandler.soundEnabled = !GameHandler.soundEnabled;
                return true; break;
+            }
+
+            case GameHandler.KEY.T:
+            {
+               this.game.topology = (this.game.topology + 1) % this.game.NTOPOLOGY;
+               return true;
+               break;
             }
             
             case GameHandler.KEY.ESC:
@@ -1052,6 +1078,13 @@ Asteroids.Colours =
             {
                GameHandler.soundEnabled = !GameHandler.soundEnabled;
                return true; break;
+            }
+            
+            case GameHandler.KEY.T:
+            {
+               this.game.topology = (this.game.topology + 1) % this.game.NTOPOLOGY;
+               return true;
+               break;
             }
             
             case GameHandler.KEY.A:
