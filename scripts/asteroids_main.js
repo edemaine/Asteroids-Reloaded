@@ -28,6 +28,12 @@
 var modulo = function(a, b) { return (+a % (b = +b) + b) % b; };
 var div = function(a, b) { return Math.floor(a / b); };
 
+// Genus-g mates
+var mate = function(x, max, g) {
+  var fraction = max / (g+1);
+  return (g - div(x, fraction)) * fraction + modulo(x, fraction);
+}
+
 // Globals
 var BITMAPS = true;
 var DEBUG = false;
@@ -313,31 +319,19 @@ Asteroids.Colours =
          // handle traversing out of the coordinate space and back again
          while (actor.position.x >= GameHandler.width) {
             actor.position.x -= GameHandler.width;
-            if (modulo(actor.position.y, GameHandler.height) < div(GameHandler.height, this.genus+1))
-               actor.position.y += div(GameHandler.height, 2);
-            else
-               actor.position.y -= div(GameHandler.height, 2);
+            actor.position.y = mate(actor.position.y, GameHandler.height, this.genus);
          }
          while (actor.position.x < 0) {
             actor.position.x += GameHandler.width;
-            if (modulo(actor.position.y, GameHandler.height) < div(GameHandler.height, 2))
-               actor.position.y += div(GameHandler.height, 2);
-            else
-               actor.position.y -= div(GameHandler.height, 2);
+            actor.position.y = mate(actor.position.y, GameHandler.height, this.genus);
          }
          while (actor.position.y >= GameHandler.height) {
             actor.position.y -= GameHandler.height;
-            if (modulo(actor.position.x, GameHandler.width) < div(GameHandler.width, 2))
-               actor.position.x += div(GameHandler.width, 2);
-            else
-               actor.position.x -= div(GameHandler.width, 2);
+            actor.position.x = mate(actor.position.x, GameHandler.width, this.genus);
          }
          while (actor.position.y < 0) {
             actor.position.y += GameHandler.height;
-            if (modulo(actor.position.x, GameHandler.width) < div(GameHandler.width, 2))
-               actor.position.x += div(GameHandler.width, 2);
-            else
-               actor.position.x -= div(GameHandler.width, 2);
+            actor.position.x = mate(actor.position.x, GameHandler.width, this.genus);
          }
       }
    });
@@ -585,7 +579,7 @@ Asteroids.Colours =
 
             case GameHandler.KEY.T:
             {
-               this.game.topology = (this.game.topology + 1) % this.game.NTOPOLOGY;
+               this.game.genus = this.game.genus + 1;
                return true;
                break;
             }
@@ -1082,7 +1076,7 @@ Asteroids.Colours =
             
             case GameHandler.KEY.T:
             {
-               this.game.topology = (this.game.topology + 1) % this.game.NTOPOLOGY;
+               this.game.genus = this.game.genus + 1;
                return true;
                break;
             }
