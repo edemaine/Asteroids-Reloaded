@@ -1,0 +1,12 @@
+* build .min (by writing scripts)
+* update title, description, README
+
+* fix wrap-around of asteroids that are near the boundary
+  (according to the second copy they will become, for continuity)
+* render colored matched lines
+* display genus somewhere
+* key for decreasing genus, maybe switch from T to G
+* non-orientable surfaces
+
+* random topology?
+* changing topology, e.g., matched lines shrinking/growing to/from 0
