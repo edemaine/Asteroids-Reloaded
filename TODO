@@ -2,8 +2,6 @@
 * update title and description in HTML and messages
 * favicon
 
-* fix wrap-around of asteroids that are near the boundary
-  (according to the second copy they will become, for continuity)
 * render colored matched lines
 * display genus somewhere
 * key for decreasing genus, maybe switch from T to G

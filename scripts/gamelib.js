@@ -654,9 +654,9 @@ if (typeof Game == "undefined" || !Game)
        * Render sprite graphic based on current anim image, frame and anim direction
        * Automatically updates the current anim frame.
        */
-      renderSprite: function renderSprite(ctx, x, y, s)
+      renderSprite: function renderSprite(ctx, x, y, s, topology)
       {
-         Game.Util.renderImage(ctx, this.animImage, 0, this.animFrame << 6, this.frameSize, x, y, s);
+         Game.Util.renderImage(ctx, this.animImage, 0, this.animFrame << 6, this.frameSize, x, y, s, topology);
          
          // update animation frame index
          if (this.animForward)
@@ -920,43 +920,50 @@ Game.Util = {};
  * Note that this feature can only be used if the sprite is absolutely positioned
  * and not translated/rotated into position by canvas operations.
  */
-Game.Util.renderImage = function renderImage(ctx, image, nx, ny, ns, x, y, s)
+Game.Util.renderImage = function renderImage(ctx, image, nx, ny, ns, x, y, s, topology)
 {
    ctx.drawImage(image, nx, ny, ns, ns, x, y, s, s);
-   
+
+   if (!topology) return;
+
+   // Corners are poorly behaved for higher topologies, so don't try for them.
+   if (x < 0 && y < 0) return;
+   if (x + s > GameHandler.width && y + s > GameHandler.height) return;
+
+   var s2 = s/2;
    if (x < 0)
    {
-      ctx.drawImage(image, nx, ny, ns, ns,
-         GameHandler.width + x, y, s, s);
+      var p = topology({x: x, y: y + s2});
+      ctx.drawImage(image, nx, ny, ns, ns, p.x, p.y - s2, s, s);
    }
    if (y < 0)
    {
-      ctx.drawImage(image, nx, ny, ns, ns,
-         x, GameHandler.height + y, s, s);
+      var p = topology({x: x + s2, y: y});
+      ctx.drawImage(image, nx, ny, ns, ns, p.x - s2, p.y, s, s);
    }
    if (x < 0 && y < 0)
    {
-      ctx.drawImage(image, nx, ny, ns, ns,
-         GameHandler.width + x, GameHandler.height + y, s, s);
+      var p = topology({x: x, y: y});
+      ctx.drawImage(image, nx, ny, ns, ns, p.x, p.y, s, s);
    }
    if (x + s > GameHandler.width)
    {
-      ctx.drawImage(image, nx, ny, ns, ns,
-         x - GameHandler.width, y, s, s);
+      var p = topology({x: x + s, y: y + s2});
+      ctx.drawImage(image, nx, ny, ns, ns, p.x - s, p.y - s2, s, s);
    }
    if (y + s > GameHandler.height)
    {
-      ctx.drawImage(image, nx, ny, ns, ns,
-         x, y - GameHandler.height, s, s);
+      var p = topology({x: x + s2, y: y + s});
+      ctx.drawImage(image, nx, ny, ns, ns, p.x - s2, p.y - s, s, s);
    }
    if (x + s > GameHandler.width && y + s > GameHandler.height)
    {
-      ctx.drawImage(image, nx, ny, ns, ns,
-         x - GameHandler.width, y - GameHandler.height, s, s);
+      var p = topology({x: x + s, y: y + s});
+      ctx.drawImage(image, nx, ny, ns, ns, p.x - s, p.y - s, s, s);
    }
 };
       
-Game.Util.renderImageRotated = function renderImageRotated(ctx, image, x, y, w, h, r)
+Game.Util.renderImageRotated = function renderImageRotated(ctx, image, x, y, w, h, r, topology)
 {
    var w2 = w*0.5, h2 = h*0.5;
    var rf = function(tx, ty)
@@ -969,30 +976,42 @@ Game.Util.renderImageRotated = function renderImageRotated(ctx, image, x, y, w, 
    };
    
    rf.call(this, x, y);
-   
+
+   if (!topology) return;
+
+   // Corners are poorly behaved for higher topologies, so don't try for them.
+   if (x - w2 < 0 && y - h2 < 0) return;
+   if (x - w2 + w > GameHandler.width && y - h2 + h > GameHandler.height) return;
+
    if (x - w2 < 0)
    {
-      rf.call(this, GameHandler.width + x, y);
+      var p = topology({x: x - w2, y: y});
+      rf.call(this, p.x + w2, p.y);
    }
    if (y - h2 < 0)
    {
-      rf.call(this, x, GameHandler.height + y);
+      var p = topology({x: x, y: y - h2});
+      rf.call(this, p.x, p.y + h2);
    }
    if (x - w2 < 0 && y - h2 < 0)
    {
-      rf.call(this, GameHandler.width + x, GameHandler.height + y);
+      var p = topology({x: x - w2, y: y - h2});
+      rf.call(this, p.x + w2, p.y + h2);
    }
    if (x - w2 + w > GameHandler.width)
    {
-      rf.call(this, x - GameHandler.width, y);
+      var p = topology({x: x - w2 + w, y: y});
+      rf.call(this, p.x + w2 - w, p.y);
    }
    if (y - h2 + h > GameHandler.height)
    {
-      rf.call(this, x, y - GameHandler.height);
+      var p = topology({x: x, y: y - h2 + h});
+      rf.call(this, p.x, p.y + h2 - h);
    }
    if (x - w2 + w > GameHandler.width && y - h2 + h > GameHandler.height)
    {
-      rf.call(this, x - GameHandler.width, y - GameHandler.height);
+      var p = topology({x: x - w2 + w, y: y - h2 + h});
+      rf.call(this, p.x + w2 - w, p.y + h2 - h);
    }
 };
 

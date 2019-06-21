@@ -58,7 +58,7 @@
       /**
        * Asteroid rendering method
        */
-      onRender: function onRender(ctx)
+      onRender: function onRender(ctx, topology)
       {
          var rad = this.size * 8;
          ctx.save();
@@ -67,7 +67,7 @@
             // render asteroid graphic bitmap
             // bitmap is rendered slightly large than the radius as the raytraced asteroid graphics do not
             // quite touch the edges of the 64x64 sprite - this improves perceived collision detection
-            this.renderSprite(ctx, this.position.x - rad - 2, this.position.y - rad - 2, (rad * 2)+4);
+            this.renderSprite(ctx, this.position.x - rad - 2, this.position.y - rad - 2, (rad * 2)+4, topology);
          }
          else
          {
@@ -76,7 +76,7 @@
             Game.Util.renderImageRotated(ctx, GameHandler.bitmaps.images["asteroid"][this.type-1][this.size-1],
                this.position.x, this.position.y,
                imgsize, imgsize,
-               this.rotation += this.rotationSpeed);
+               this.rotation += this.rotationSpeed, topology);
          }
          ctx.restore();
       },
@@ -241,13 +241,13 @@
       /**
        * Enemy rendering method
        */
-      onRender: function onRender(ctx)
+      onRender: function onRender(ctx, topology)
       {
          if (BITMAPS)
          {
             // render enemy graphic bitmap
             var rad = this.RADIUS + 2;
-            this.renderSprite(ctx, this.position.x - rad, this.position.y - rad, rad * 2, true);
+            this.renderSprite(ctx, this.position.x - rad, this.position.y - rad, rad * 2, topology);
          }
          else
          {

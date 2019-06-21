@@ -24,16 +24,6 @@
  * . Boss ship - large saucer takes lots of hits etc.
  */
 
-// Based on CoffeeScript
-var modulo = function(a, b) { return (+a % (b = +b) + b) % b; };
-var div = function(a, b) { return Math.floor(a / b); };
-
-// Genus-g mates
-var mate = function(x, max, g) {
-  var fraction = max / (g+1);
-  return (g - div(x, fraction)) * fraction + modulo(x, fraction);
-}
-
 // Globals
 var BITMAPS = false;
 var DEBUG = false;
@@ -304,6 +294,34 @@ Asteroids.Colours =
          }
          ctx.restore();
       },
+
+      /**
+       * Apply wraparound boundary conditions to the given coordinates
+       * (given as an object with attributes x and y) that are out of the
+       * [0...GameHandler.width] x [0...GameHandler.height] game rectangle.
+       * The resulting in-rectangle coordinates are modified in-place and
+       * breturned (as an object with x and y).
+       */
+      applyTopology: function applyTopology(coords)
+      {
+         while (coords.x >= GameHandler.width) {
+            coords.x -= GameHandler.width;
+            coords.y = genusMate(coords.y, GameHandler.height, this.genus);
+         }
+         while (coords.x < 0) {
+            coords.x += GameHandler.width;
+            coords.y = genusMate(coords.y, GameHandler.height, this.genus);
+         }
+         while (coords.y >= GameHandler.height) {
+            coords.y -= GameHandler.height;
+            coords.x = genusMate(coords.x, GameHandler.width, this.genus);
+         }
+         while (coords.y < 0) {
+            coords.y += GameHandler.height;
+            coords.x = genusMate(coords.x, GameHandler.width, this.genus);
+         }
+         return coords;
+      },
       
       /**
        * Update an actor position using its current velocity vector.
@@ -317,22 +335,7 @@ Asteroids.Colours =
          actor.position.add(actor.vector.nscale(GameHandler.frameMultipler));
          
          // handle traversing out of the coordinate space and back again
-         while (actor.position.x >= GameHandler.width) {
-            actor.position.x -= GameHandler.width;
-            actor.position.y = mate(actor.position.y, GameHandler.height, this.genus);
-         }
-         while (actor.position.x < 0) {
-            actor.position.x += GameHandler.width;
-            actor.position.y = mate(actor.position.y, GameHandler.height, this.genus);
-         }
-         while (actor.position.y >= GameHandler.height) {
-            actor.position.y -= GameHandler.height;
-            actor.position.x = mate(actor.position.x, GameHandler.width, this.genus);
-         }
-         while (actor.position.y < 0) {
-            actor.position.y += GameHandler.height;
-            actor.position.x = mate(actor.position.x, GameHandler.width, this.genus);
-         }
+         this.applyTopology(actor.position);
       }
    });
 })();
@@ -428,7 +431,7 @@ Asteroids.Colours =
                
                actor.onUpdate(this);
                this.game.updateActorPosition(actor);
-               actor.onRender(ctx);
+               actor.onRender(ctx, this.game.applyTopology.bind(this.game));
             }
             
             // manage scene renderers
@@ -549,7 +552,6 @@ Asteroids.Colours =
       
       onKeyDownHandler: function onKeyDownHandler(keyCode)
       {
-         console.log(keyCode);
          switch (keyCode)
          {
             case GameHandler.GAMEPAD + 0:
@@ -1700,7 +1702,7 @@ Asteroids.Colours =
             
             for (var n = actorList.length - 1; n >= 0; n--)
             {
-               actorList[n].onRender(ctx);
+               actorList[n].onRender(ctx, this.game.applyTopology.bind(this.game));
             }
          }
       },

@@ -89,7 +89,7 @@
        * 
        * @param ctx {object} Canvas rendering context
        */
-      onRender: function onRender(ctx)
+      onRender: function onRender(ctx, topology)
       {
          var headingRad = this.heading * RAD;
          
@@ -159,7 +159,7 @@
                ctx.save();
                ctx.translate(this.position.x, this.position.y);
                ctx.rotate(headingRad);
-               this.renderSprite(ctx, -this.SHIELD_RADIUS-1, -this.SHIELD_RADIUS-1, (this.SHIELD_RADIUS * 2) + 2);
+               this.renderSprite(ctx, -this.SHIELD_RADIUS-1, -this.SHIELD_RADIUS-1, (this.SHIELD_RADIUS * 2) + 2, topology);
                ctx.restore();
             }
             else

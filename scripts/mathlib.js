@@ -493,3 +493,16 @@ function isArray(obj)
       }
    };
 })();
+
+// CoffeeScript's definitions of %% and //
+var modulo = function(a, b) { return (+a % (b = +b) + b) % b; };
+var div = function(a, b) { return Math.floor(a / b); };
+
+// Genus-g mates
+var genusMate = function(x, max, g) {
+  var fraction = max / (g+1);
+  if (x < 0 || x >= max)
+    return (g - div(x, fraction)) * fraction + (fraction - modulo(x, fraction));
+  else
+    return (g - div(x, fraction)) * fraction + modulo(x, fraction);
+}
