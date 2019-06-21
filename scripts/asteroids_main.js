@@ -35,7 +35,7 @@ var mate = function(x, max, g) {
 }
 
 // Globals
-var BITMAPS = true;
+var BITMAPS = false;
 var DEBUG = false;
 /*DEBUG =
 {
