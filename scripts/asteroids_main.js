@@ -122,7 +122,6 @@ Asteroids.Colours =
    PLAYER_BOMB: "rgb(155,255,155)",
    PLAYER_THRUST: "rgb(25,125,255)",
    PLAYER_SHIELD: "rgb(100,100,255)",
-   TOPOLOGY_LINE: "rgb(0,255,0)"
 };
 
 
@@ -262,8 +261,35 @@ Asteroids.Colours =
             
             // glowing vector effect shadow
             ctx.shadowBlur = GLOWEFFECT ? GLOWSHADOWBLUR : 0;
-            ctx.lineWidth = 1.5;
          }
+
+         // Draw matched topological connections
+         ctx.lineWidth = 10;
+         var GAP = 2;
+         for (var g = 0; g <= this.genus; g++) {
+            ctx.strokeStyle = 'hsl('+(305*g/(this.genus || 1))+'deg,75%,40%)'
+            ctx.beginPath();
+            ctx.moveTo(g * GameHandler.width / (this.genus+1), 0);
+            ctx.lineTo((g+1) * GameHandler.width / (this.genus+1) - GAP, 0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo((this.genus - g) * GameHandler.width / (this.genus+1), GameHandler.height);
+            ctx.lineTo((this.genus - g + 1) * GameHandler.width / (this.genus+1) - GAP, GameHandler.height);
+            ctx.stroke();
+
+            ctx.strokeStyle = 'hsl('+(305*(g+0.5)/(this.genus || 1))+'deg,75%,40%)'
+            ctx.beginPath();
+            ctx.moveTo(0, g * GameHandler.height / (this.genus+1));
+            ctx.lineTo(0, (g+1) * GameHandler.height / (this.genus+1) - GAP);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(GameHandler.width, (this.genus - g) * GameHandler.height / (this.genus+1));
+            ctx.lineTo(GameHandler.width, (this.genus - g + 1) * GameHandler.height / (this.genus+1) - GAP);
+            ctx.stroke();
+         }
+
+         if (!(BITMAPS && !(DEBUG && DEBUG.NOBACKGROUND)))
+            ctx.lineWidth = 1.5;
       },
       
       isGameOver: function isGameOver()
