@@ -1,10 +1,10 @@
 ﻿#NOTE: file must be saved with "UTF-8" encoding
 #Standard "en" English messages
 
-title=ASTEROIDS
+title=AS-TOROIDS
 please-wait=Please wait... Loading Images...
 start=Press SPACE or click to start
-author=by Kevin Roast
+author=by Kevin Roast and Erik Demaine
 instruction1=How to play...
 instruction2=Arrow keys to rotate, thrust, shield. SPACE to fire.
 instruction3=Pickup the glowing power-ups to enhance your ship.
