@@ -500,9 +500,9 @@ var div = function(a, b) { return Math.floor(a / b); };
 
 // Genus-g mates
 var genusMate = function(x, max, g) {
-  var fraction = max / (g+1);
+  var fraction = max / g;
   if (x < 0 || x >= max)
-    return (g - div(x, fraction)) * fraction + (fraction - modulo(x, fraction));
+    return (g-1 - div(x, fraction)) * fraction + (fraction - modulo(x, fraction));
   else
-    return (g - div(x, fraction)) * fraction + modulo(x, fraction);
+    return (g-1 - div(x, fraction)) * fraction + modulo(x, fraction);
 }

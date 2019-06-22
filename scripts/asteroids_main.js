@@ -201,7 +201,7 @@ Asteroids.Colours =
    {
       STARFIELD_SIZE: 64,
 
-      genus: 0,
+      genus: 1,
       
       /**
        * Reference to the single game player actor
@@ -267,7 +267,7 @@ Asteroids.Colours =
          ctx.lineWidth = 10;
          var GAP = 1;
          var colorMap = function(g, h) {
-            var frac = g / (this.genus + 1);
+            var frac = g / this.genus;
             frac /= 2;
             if (g % 2 == 1) frac += 0.5;
             if (h)
@@ -275,25 +275,25 @@ Asteroids.Colours =
             else
                return 'hsl('+(305*frac)+'deg,75%,33%)';
          };
-         for (var g = 0; g <= this.genus; g++) {
+         for (var g = 0; g < this.genus; g++) {
             ctx.strokeStyle = colorMap.call(this, g, true);
             ctx.beginPath();
-            ctx.moveTo(g * GameHandler.width / (this.genus+1) + GAP, 0);
-            ctx.lineTo((g+1) * GameHandler.width / (this.genus+1) - GAP, 0);
+            ctx.moveTo(g * GameHandler.width / this.genus + GAP, 0);
+            ctx.lineTo((g+1) * GameHandler.width / this.genus - GAP, 0);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo((this.genus - g) * GameHandler.width / (this.genus+1) + GAP, GameHandler.height);
-            ctx.lineTo((this.genus - g + 1) * GameHandler.width / (this.genus+1) - GAP, GameHandler.height);
+            ctx.moveTo((this.genus-1 - g) * GameHandler.width / this.genus + GAP, GameHandler.height);
+            ctx.lineTo((this.genus-1 - g + 1) * GameHandler.width / this.genus - GAP, GameHandler.height);
             ctx.stroke();
 
             ctx.strokeStyle = colorMap.call(this, g, false);
             ctx.beginPath();
-            ctx.moveTo(0, g * GameHandler.height / (this.genus+1) + GAP);
-            ctx.lineTo(0, (g+1) * GameHandler.height / (this.genus+1) - GAP);
+            ctx.moveTo(0, g * GameHandler.height / this.genus + GAP);
+            ctx.lineTo(0, (g+1) * GameHandler.height / this.genus - GAP);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(GameHandler.width, (this.genus - g) * GameHandler.height / (this.genus+1) + GAP);
-            ctx.lineTo(GameHandler.width, (this.genus - g + 1) * GameHandler.height / (this.genus+1) - GAP);
+            ctx.moveTo(GameHandler.width, (this.genus-1 - g) * GameHandler.height / this.genus + GAP);
+            ctx.lineTo(GameHandler.width, (this.genus-1 - g + 1) * GameHandler.height / this.genus - GAP);
             ctx.stroke();
          }
 
