@@ -109,9 +109,9 @@ canvas
 .credits
 {
    display: inline-block;
-   padding: 4px 64px;
+   padding: 12px 16px 4px 4px;
    margin: 8px;
-   text-align: center;
+   text-align: justify;
    background-color: rgba(40,40,50,.85);
    font-size: 0.8em;
 }
@@ -199,7 +199,7 @@ a, a:visited, a:active, a:hover
                   <div class="results"><a id="tweetlink" href="#" target="new">Tweet your high score...</a></div>
                </div>
                <div>
-                  <p class="left section"><a href="./index-debug.html">Asteroids DEBUG page</a></p>
+                  <p class="left section"><a href="./index-debug.html">As-Toroids DEBUG page</a> (cheats, etc.)</p>
                </div>
                <div>
                   <p class="left"><a href="asteroids-src.zip">Download JavaScript source code</a></p>
@@ -212,9 +212,34 @@ a, a:visited, a:active, a:hover
       </div>
       <div class="credits-wrapper">
          <div class="credits box-shadow">
-            Higher-genus extensions by Erik Demaine, based heavily on
-            <a href="http://www.kevs3d.co.uk/dev/asteroids/">Asteroids [Reloaded]</a>
-            by Kevin Roast.
+<p>
+This game is a quick experiment to see what it's like to play the classic
+video game
+<a href="https://en.wikipedia.org/wiki/Asteroids_(video_game)">Asteroids</a>
+on <b>higher-genus surfaces, beyond the usual torus</b>.
+Regular Asteroids is played on a rectangular screen where anything flying off
+the top side of the screen returns at the same coordinate on the bottom side of the screen, and similarly for the left and right sides.  This usual
+connectivity describes the
+<a href="https://en.wikipedia.org/wiki/Torus#Flat_torus">flat torus</a>,
+or genus&nbsp;1. This game starts in that mode.
+<p>
+This game implements a more general boundary condition that defines a
+<a href="https://en.wikipedia.org/wiki/Torus#Genus_g_surface">genus-<i>g</i>
+orientable surface</a> for any <i>g</i> (not just 1): just press "G" to
+increase genus, and "F" to decrease it again.
+It all started when <a href="http://jeffe.cs.illinois.edu/">Jeff Erickson</a>
+said (on June 20, 2019) "what we really need is Asteroids on a double torus"
+along with his favorite
+<a href="https://en.wikipedia.org/wiki/Surface_(topology)#Construction_from_polygons">fundamental polygon</a> for it.
+An early version of this implementation emerged less than an hour later,
+thanks to input from Erin Wolf Chambers, David Eppstein, and Jeff Erickson.
+<p>
+The code is a very light edit of the excellent
+<a href="http://www.kevs3d.co.uk/dev/asteroid">Asteroids [Reloaded]</a>
+developed by <a href="http://www.kevs3d.co.uk/">Kevin Roast</a>.
+All credit for the gameplay, graphics, sound, etc. goes to him!
+The main purpose of this experiment is as an educational tool
+for teaching topology.
          </div>
       </div>
    </body>
