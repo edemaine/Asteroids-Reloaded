@@ -2,7 +2,7 @@
 <html lang="en">
    <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
-      <title>As-toroids</title>
+      <title>As-Toroids</title>
       <script>
 var a = navigator.userAgent;
 if (a.indexOf("iPhone;") != -1 || a.indexOf("iPod;") != -1 || a.indexOf("iPad;") != -1)
@@ -73,6 +73,11 @@ canvas
    color: #fff;
    text-shadow: 1px 1px 4px rgb(60,60,60);
    line-height: 1em;
+}
+
+.topology
+{
+   color: #ffccff;
 }
 
 .highlight
@@ -170,7 +175,7 @@ a, a:visited, a:active, a:hover
          <canvas class="box-shadow" id="canvas" width="640" height="640"></canvas>
          <div class="info">
             <div class="infopanel box-shadow">
-               <div class="title">As-toroids</div>
+               <div class="title">As-Toroids</div>
                <div class="settings">
                   <p class="left heading">Instructions:</p>
                   <p>Left and Right Arrows: Rotate ship</p>
@@ -178,8 +183,9 @@ a, a:visited, a:active, a:hover
                   <p>SPACE: Fire main weapon(s)</p>
                   <p>Z: Fire bomb weapon (area effect, uses energy)</p>
                   <p>Down Arrow or SHIFT: Shield (will recharge...)</p>
-                  <p class="highlight section">T: Change topology</p>
-                  <p class="highlight">S: Enable or disable sound effects</p>
+                  <p class="topology section">G: Increase genus (add handle)</p>
+                  <p class="topology">F: Decrease genus (remove handle)</p>
+                  <p class="highlight section">S: Enable or disable sound effects</p>
                   <p class="highlight">R: Switch between Modern and Retro graphics</p>
                   <p class="highlight">Escape: Pause the game</p>
                </div>

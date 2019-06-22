@@ -613,7 +613,15 @@ Asteroids.Colours =
                return true; break;
             }
 
-            case GameHandler.KEY.T:
+            case GameHandler.KEY.F:
+            {
+               this.game.genus = this.game.genus - 1;
+               if (this.game.genus < 1) this.game.genus = 1;
+               return true;
+               break;
+            }
+            
+            case GameHandler.KEY.G:
             {
                this.game.genus = this.game.genus + 1;
                return true;
@@ -1110,7 +1118,15 @@ Asteroids.Colours =
                return true; break;
             }
             
-            case GameHandler.KEY.T:
+            case GameHandler.KEY.F:
+            {
+               this.game.genus = this.game.genus - 1;
+               if (this.game.genus < 1) this.game.genus = 1;
+               return true;
+               break;
+            }
+            
+            case GameHandler.KEY.G:
             {
                this.game.genus = this.game.genus + 1;
                return true;
@@ -1128,7 +1144,7 @@ Asteroids.Colours =
                break;
             }
             
-            case GameHandler.KEY.G:
+            case GameHandler.KEY.W:
             {
                if (DEBUG)
                {
