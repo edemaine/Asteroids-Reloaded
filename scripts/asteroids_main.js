@@ -1863,6 +1863,9 @@ Asteroids.Colours =
             sscore = "0" + sscore;
          }
          Game.fillText(ctx, Game.Util.message("hi-score") + ": " + sscore, "12pt Courier New", 220, 20, "white");
+
+         // genus display
+         Game.fillText(ctx, Game.Util.message("genus") + ": " + this.game.genus, "12pt Courier New", GameHandler.width - 90 - this.game.genus.toString().length*10, 20, "#ffccff");
          
          // debug output
          if (DEBUG && DEBUG.FPS)

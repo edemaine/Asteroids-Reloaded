@@ -16,6 +16,7 @@ high-score=High Score
 game-over=GAME OVER
 new-high-score=New High Score
 score=Score
+genus=Genus
 congratulations=CONGRATULATIONS!
 wave=Wave
 hi-score=HI

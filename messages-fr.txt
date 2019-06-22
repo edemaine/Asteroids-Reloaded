@@ -16,6 +16,7 @@ high-score=Meilleur Score
 game-over=Jeu Complet
 new-high-score=Nouveau le meilleur score
 score=Score
+genus=Genre
 congratulations=FÉLICITATIONS!
 wave=Niveau
 hi-score=TOP
