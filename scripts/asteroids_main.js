@@ -297,8 +297,7 @@ Asteroids.Colours =
             ctx.stroke();
          }
 
-         if (!(BITMAPS && !(DEBUG && DEBUG.NOBACKGROUND)))
-            ctx.lineWidth = 1.5;
+         ctx.lineWidth = 1.5;
       },
       
       isGameOver: function isGameOver()
@@ -1787,7 +1786,7 @@ Asteroids.Colours =
          
          // energy bar (100 pixels across, scaled down from player energy max)
          ctx.strokeStyle = "rgb(50,50,255)";
-         ctx.strokeRect(4, 4, 101, 6);
+         ctx.strokeRect(9, 11, 101, 7);
          ctx.fillStyle = "rgb(100,100,255)";
          var energy = this.player.energy;
          if (energy > this.player.ENERGY_INIT)
@@ -1795,20 +1794,20 @@ Asteroids.Colours =
             // the shield is on for "free" briefly when he player respawns
             energy = this.player.ENERGY_INIT;
          }
-         ctx.fillRect(5, 5, (energy / (this.player.ENERGY_INIT / 100)), 5);
+         ctx.fillRect(10, 12, (energy / (this.player.ENERGY_INIT / 100)), 6);
          
          // lives indicator graphics
          for (var i=0; i<this.game.lives; i++)
          {
             if (BITMAPS)
             {
-               ctx.drawImage(g_playerImg, 0, 0, 64, 64, 380+(i*20), 0, 16, 16);
+               ctx.drawImage(g_playerImg, 0, 0, 64, 64, 380+(i*20)-6, 8, 16, 16);
             }
             else
             {
                ctx.save();
                ctx.strokeStyle = "white";
-               ctx.translate(380+(i*16), 8);
+               ctx.translate(380+(i*16), 14);
                ctx.beginPath();
                ctx.moveTo(-4, 6);
                ctx.lineTo(4, 6);
@@ -1833,7 +1832,7 @@ Asteroids.Colours =
          {
             sscore = "0" + sscore;
          }
-         Game.fillText(ctx, sscore, "12pt Courier New", 120, 12, "white");
+         Game.fillText(ctx, sscore, "12pt Courier New", 120, 20, "white");
          
          // high score
          // TODO: add method for incrementing score so this is not done here
@@ -1847,12 +1846,12 @@ Asteroids.Colours =
          {
             sscore = "0" + sscore;
          }
-         Game.fillText(ctx, Game.Util.message("hi-score") + ": " + sscore, "12pt Courier New", 220, 12, "white");
+         Game.fillText(ctx, Game.Util.message("hi-score") + ": " + sscore, "12pt Courier New", 220, 20, "white");
          
          // debug output
          if (DEBUG && DEBUG.FPS)
          {
-            Game.fillText(ctx, "FPS: " + GameHandler.maxfps, "12pt Courier New", 0, GameHandler.height - 2, "lightblue");
+            Game.fillText(ctx, "FPS: " + GameHandler.maxfps, "12pt Courier New", 5, GameHandler.height - 7, "lightblue");
          }
          
          ctx.restore();
