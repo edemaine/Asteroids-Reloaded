@@ -265,9 +265,9 @@ Asteroids.Colours =
 
          // Draw matched topological connections
          ctx.lineWidth = 10;
-         var GAP = 2;
+         var GAP = 1;
          var colorMap = function(g, h) {
-            var frac = g / (this.genus || 1);
+            var frac = g / (this.genus + 1);
             frac /= 2;
             if (g % 2 == 1) frac += 0.5;
             if (h)
@@ -278,21 +278,21 @@ Asteroids.Colours =
          for (var g = 0; g <= this.genus; g++) {
             ctx.strokeStyle = colorMap.call(this, g, true);
             ctx.beginPath();
-            ctx.moveTo(g * GameHandler.width / (this.genus+1), 0);
+            ctx.moveTo(g * GameHandler.width / (this.genus+1) + GAP, 0);
             ctx.lineTo((g+1) * GameHandler.width / (this.genus+1) - GAP, 0);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo((this.genus - g) * GameHandler.width / (this.genus+1), GameHandler.height);
+            ctx.moveTo((this.genus - g) * GameHandler.width / (this.genus+1) + GAP, GameHandler.height);
             ctx.lineTo((this.genus - g + 1) * GameHandler.width / (this.genus+1) - GAP, GameHandler.height);
             ctx.stroke();
 
             ctx.strokeStyle = colorMap.call(this, g, false);
             ctx.beginPath();
-            ctx.moveTo(0, g * GameHandler.height / (this.genus+1));
+            ctx.moveTo(0, g * GameHandler.height / (this.genus+1) + GAP);
             ctx.lineTo(0, (g+1) * GameHandler.height / (this.genus+1) - GAP);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(GameHandler.width, (this.genus - g) * GameHandler.height / (this.genus+1));
+            ctx.moveTo(GameHandler.width, (this.genus - g) * GameHandler.height / (this.genus+1) + GAP);
             ctx.lineTo(GameHandler.width, (this.genus - g + 1) * GameHandler.height / (this.genus+1) - GAP);
             ctx.stroke();
          }
